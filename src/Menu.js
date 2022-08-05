@@ -1,14 +1,16 @@
-import React, { useState } from "react";
-import data from "./data.json";
+import React from "react";
 import Category from "./Category";
 
-const Menu = () => {
-  const [getCate, setCate] = useState(data);
+const Menu = (props) => {
+  const { menu } = props;
+
   return (
     <>
-      {getCate.map((el) => {
-        return <Category key={el.id} {...el}></Category>;
-      })}
+      <div className="menus">
+        {menu.map((el) => {
+          return <Category key={el.id} {...el}></Category>;
+        })}
+      </div>
     </>
   );
 };

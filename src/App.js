@@ -1,30 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import Menu from "./Menu";
+import Navigation from "./Navigation";
+import data from "./data.json";
 
-function App() {
+const getCategory = () => {
+  const cate = new Set(data.map((el) => el.category));
+  const fullCate = ["all", ...cate];
+
+  return fullCate;
+};
+
+// console.log(getCategory());
+
+const App = () => {
+  const [getCate, setCate] = useState(data);
+
+  const filterCategory = (cateName) => {
+    // setCate(data);
+    // setCate((pre) => pre.filter((el) => el.category === cateName));
+    if (cateName === "all") {
+      setCate(data);
+      return;
+    }
+
+    const newItem = data.filter((el) => el.category === cateName);
+    setCate(newItem);
+  };
+
   return (
     <div className="App">
       <div className="container">
         <h1 className="heading__primary">Our Menu</h1>
-        <ul className="nav">
-          <li className="nav__item">
-            <button className="nav__btn">All</button>
-          </li>
-          <li className="nav__item">
-            <button className="nav__btn">Breakfast</button>
-          </li>
-          <li className="nav__item">
-            <button className="nav__btn">Lunch</button>
-          </li>
-          <li className="nav__item">
-            <button className="nav__btn">Shakes</button>
-          </li>
-        </ul>
-
-        <Menu></Menu>
+        <Navigation
+          fullCates={getCategory}
+          cateContainer={filterCategory}
+        ></Navigation>
+        <Menu menu={getCate}></Menu>
       </div>
     </div>
   );
-}
+};
 
 export default App;
